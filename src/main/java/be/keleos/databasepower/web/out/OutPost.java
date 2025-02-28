@@ -4,6 +4,7 @@ import be.keleos.databasepower.repository.entity.PostEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Accessors(chain = true)
@@ -15,6 +16,7 @@ public class OutPost {
     private String summary;
     private String body;
     private OutUser user;
+    private LocalDateTime createdAt;
     private List<OutComment> comments;
     private List<OutLike> likes;
 
@@ -25,6 +27,7 @@ public class OutPost {
                 .setSummary(postEntity.getSummary())
                 .setBody(postEntity.getBody())
                 .setUser(OutUser.fromEntity(postEntity.getUser()))
+                .setCreatedAt(postEntity.getCreatedAt())
                 .setComments(postEntity.getComments()
                         .stream()
                         .map(OutComment::fromCommentEntity)
