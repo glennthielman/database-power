@@ -25,5 +25,5 @@ public class PostEntity {
     private List<CommentEntity> comments;
 
     @OneToMany(mappedBy = "post")
-    private List<LikeEntity> likes;
+    private List<PostLikeEntity> likes;
 }

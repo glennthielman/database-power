@@ -3,6 +3,7 @@ package be.keleos.databasepower.repository.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -21,4 +22,7 @@ public class CommentEntity {
     @ManyToOne
     @JoinColumn(name = "parent_id")
     private PostEntity post;
+
+    @OneToMany(mappedBy = "comment")
+    private List<CommentLikeEntity> likes;
 }

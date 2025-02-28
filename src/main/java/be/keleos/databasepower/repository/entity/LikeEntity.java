@@ -5,9 +5,8 @@ import lombok.Data;
 
 import java.util.UUID;
 
-@Entity
-@Table(name = "blog_likes")
 @Data
+@MappedSuperclass
 public class LikeEntity {
 
     @Id
@@ -15,7 +14,7 @@ public class LikeEntity {
     @OneToOne
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     private UserEntity user;
-    @ManyToOne
-    @JoinColumn(name = "parent_id")
-    private PostEntity post;
+    @Column(name = "parent_type")
+    private String type;
+
 }
