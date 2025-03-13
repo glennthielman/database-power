@@ -1,6 +1,8 @@
 package be.keleos.databasepower.web.out;
 
 import be.keleos.databasepower.repository.entity.PostEntity;
+import be.keleos.databasepower.repository.entity.RecentPostEntity;
+import be.keleos.databasepower.repository.entity.TopLikedPostEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -37,5 +39,19 @@ public class OutPost {
                         .stream()
                         .map(OutLike::fromEntity)
                         .toList());
+    }
+
+    public static OutPost fromRecentPostEntity(RecentPostEntity postEntity) {
+        return new OutPost()
+                .setId(postEntity.getId().toString())
+                .setTitle(postEntity.getTitle())
+                .setSummary(postEntity.getSummary())
+                .setCreatedAt(postEntity.getCreatedAt());
+    }
+
+    public static OutPost fromTopLikedEntity(TopLikedPostEntity postEntity) {
+        return new OutPost()
+                .setId(postEntity.getId().toString())
+                .setTitle(postEntity.getTitle());
     }
 }

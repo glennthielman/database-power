@@ -1,6 +1,7 @@
 package be.keleos.databasepower.web.out;
 
 import be.keleos.databasepower.repository.entity.CommentEntity;
+import be.keleos.databasepower.repository.entity.TopLikedCommentEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -27,5 +28,14 @@ public class OutComment {
                         .stream()
                         .map(OutLike::fromEntity)
                         .toList());
+    }
+
+    public static OutComment fromTopLikedComment(TopLikedCommentEntity comment) {
+        return new OutComment()
+                .setId(comment.getId())
+                .setComment(comment.getComment())
+                .setUser(new OutUser()
+                        .setFirstname(comment.getFirstname())
+                );
     }
 }

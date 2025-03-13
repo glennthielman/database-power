@@ -75,25 +75,17 @@
                     </div>-->
                     <!-- Categories widget-->
                     <div class="card mb-4">
-                        <div class="card-header">Top 10 liked blogs</div>
+                        <div class="card-header">Top rated blogs</div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-sm-6">
-                                    <ul class="list-unstyled mb-0">
+                                <div class="col-sm-12">
+                                    <ul class="list-unstyled mb-0" id="topLikedBlogsLeft">
+                                        <!--
                                         <li><a href="#!">Get your Maven on</a></li>
                                         <li><a href="#!">Let's Gradle</a></li>
                                         <li><a href="#!">Twisted dependencies</a></li>
                                         <li><a href="#!">Twisted dependencies</a></li>
-                                        <li><a href="#!">Twisted dependencies</a></li>
-                                    </ul>
-                                </div>
-                                <div class="col-sm-6">
-                                    <ul class="list-unstyled mb-0">
-                                        <li><a href="#!">Mastering Spring</a></li>
-                                        <li><a href="#!">Mastering Spring</a></li>
-                                        <li><a href="#!">Mastering Spring</a></li>
-                                        <li><a href="#!">Mastering Spring</a></li>
-                                        <li><a href="#!">Mastering Spring</a></li>
+                                        <li><a href="#!">Twisted dependencies</a></li>-->
                                     </ul>
                                 </div>
                             </div>
@@ -104,7 +96,8 @@
                         <div class="card-header">Recent comments</div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-sm-12">
+                                <div class="col-sm-12" id="recentComments">
+                                    <!--
                                     <blockquote class="blockquote mb-0" style="font-size: 14px;">
                                         <p>This is great, Maven is awesome</p>
                                         <footer class="blockquote-footer">
@@ -112,31 +105,7 @@
                                                 Glenn
                                             </small>
                                         </footer>
-                                    </blockquote>
-                                    <blockquote class="blockquote mb-0">
-                                        <p>This is great, Maven is awesome</p>
-                                        <footer class="blockquote-footer">
-                                            <small class="text-muted">
-                                                Glenn
-                                            </small>
-                                        </footer>
-                                    </blockquote>
-                                    <blockquote class="blockquote mb-0">
-                                        <p>This is great, Maven is awesome</p>
-                                        <footer class="blockquote-footer">
-                                            <small class="text-muted">
-                                                Glenn
-                                            </small>
-                                        </footer>
-                                    </blockquote>
-                                    <blockquote class="blockquote mb-0">
-                                        <p>This is great, Maven is awesome</p>
-                                        <footer class="blockquote-footer">
-                                            <small class="text-muted">
-                                                Glenn
-                                            </small>
-                                        </footer>
-                                    </blockquote>
+                                    </blockquote>-->
                                 </div>
                             </div>
                         </div>
@@ -158,47 +127,80 @@
         <!-- Core theme JS-->
         <script src="/js/scripts.js"></script>
         <script>
+            fetch("v1/posts/top/liked",  {
+              method: "GET"
+            })
+            .then((response) => response.json())
+            .then((json) => {
+                document.getElementById('topLikedBlogsLeft').innerHTML = "";
+                let html = ""
+                for(let i = 0; i < json.length; i++) {
+                    html+= `<li><a href="#!">${json[i].title}</a></li>`;
+                }
+                document.getElementById('topLikedBlogsLeft').innerHTML = html;
+            });
+
+            fetch("v1/comments/top/liked",  {
+                method: "GET"
+            })
+            .then((response) => response.json())
+            .then((json) => {
+                document.getElementById("recentComments").innerHTML = "";
+                let html = "";
+                for(let i = 0; i < json.length; i++) {
+                    html+= `<blockquote class="blockquote mb-0" style="font-size: 14px;">
+                                    <p>${json[i].comment}</p>
+                                    <footer class="blockquote-footer">
+                                        <small class="text-muted">
+                                            ${json[i].user.firstname}
+                                        </small>
+                                    </footer>
+                                </blockquote>`;
+                }
+                document.getElementById("recentComments").innerHTML = html;
+            });
+
             fetch("/v1/posts/recent", {
                 method: "GET"
             })
                 .then((response) => response.json())
                 .then((json) => {
                         document.getElementById('featured-post-banner').innerHTML = "";
-                            var value = json[0];
-                            var html = `<a href="#!"><img class="card-img-top" src="https://dummyimage.com/850x350/dee2e6/6c757d.jpg" alt="..." /></a>
-                                        <div class="card-body">
-                                            <div class="small text-muted">${new Date(value.createdAt).toLocaleDateString()}</div>
-                                            <h2 class="card-title">${value.title}</h2>
-                                            <p class="card-text">${value.body}</p>
-                                            <a class="btn btn-primary" href="#!">Read more →</a>
-                                        </div>`;
-                            document.getElementById('main-post-banner').innerHTML = html;
+                        let value = json[0];
+                        let html = `<a href="#!"><img class="card-img-top" src="https://dummyimage.com/850x350/dee2e6/6c757d.jpg" alt="..." /></a>
+                                    <div class="card-body">
+                                        <div class="small text-muted">${new Date(value.createdAt).toLocaleDateString()}</div>
+                                        <h2 class="card-title">${value.title}</h2>
+                                        <p class="card-text">${value.summary}</p>
+                                        <a class="btn btn-primary" href="#!">Read more →</a>
+                                    </div>`;
+                        document.getElementById('main-post-banner').innerHTML = html;
 
-                            value = json[1];
-                            var html = `<div class="col-lg-6">
-                            <!-- Blog post-->
-                            <div class="card mb-4">
-                                <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
-                                <div class="card-body">
-                                    <div class="small text-muted">${new Date(value.createdAt).toLocaleDateString()}</div>
-                                    <h2 class="card-title h4">${value.title}</h2>
-                                    <p class="card-text">${value.body}</p>
-                                    <a class="btn btn-primary" href="#!">Read more →</a>
-                                </div>
-                            </div>`
-
-                            value = json[3];
-                            html += ` <!-- Blog post-->
-                            <div class="card mb-4">
-                                <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
-                                <div class="card-body">
-                                    <div class="small text-muted">${new Date(value.createdAt).toLocaleDateString()}</div>
-                                    <h2 class="card-title h4">${value.title}</h2>
-                                    <p class="card-text">${value.body}</p>
-                                    <a class="btn btn-primary" href="#!">Read more →</a>
-                                </div>
+                        value = json[1];
+                        html = `<div class="col-lg-6">
+                        <!-- Blog post-->
+                        <div class="card mb-4">
+                            <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
+                            <div class="card-body">
+                                <div class="small text-muted">${new Date(value.createdAt).toLocaleDateString()}</div>
+                                <h2 class="card-title h4">${value.title}</h2>
+                                <p class="card-text">${value.summary}</p>
+                                <a class="btn btn-primary" href="#!">Read more →</a>
                             </div>
-                        </div>`;
+                        </div>`
+
+                        value = json[3];
+                        html += ` <!-- Blog post-->
+                        <div class="card mb-4">
+                            <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
+                            <div class="card-body">
+                                <div class="small text-muted">${new Date(value.createdAt).toLocaleDateString()}</div>
+                                <h2 class="card-title h4">${value.title}</h2>
+                                <p class="card-text">${value.summary}</p>
+                                <a class="btn btn-primary" href="#!">Read more →</a>
+                            </div>
+                        </div>
+                    </div>`;
 
                     value = json[2];
                     html += `<div class="col-lg-6">
@@ -208,7 +210,7 @@
                                 <div class="card-body">
                                     <div class="small text-muted">${new Date(value.createdAt).toLocaleDateString()}</div>
                                     <h2 class="card-title h4">${value.title}</h2>
-                                    <p class="card-text">${value.body}</p>
+                                    <p class="card-text">${value.summary}</p>
                                     <a class="btn btn-primary" href="#!">Read more →</a>
                                 </div>
                             </div>`
@@ -220,7 +222,7 @@
                                 <div class="card-body">
                                     <div class="small text-muted">${new Date(value.createdAt).toLocaleDateString()}</div>
                                     <h2 class="card-title h4">${value.title}</h2>
-                                    <p class="card-text">${value.body}</p>
+                                    <p class="card-text">${value.summary}</p>
                                     <a class="btn btn-primary" href="#!">Read more →</a>
                                 </div>
                             </div>

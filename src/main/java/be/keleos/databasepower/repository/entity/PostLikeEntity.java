@@ -1,11 +1,8 @@
 package be.keleos.databasepower.repository.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
-
-import java.util.UUID;
 
 @Entity
 @Table(name = "blog_likes")

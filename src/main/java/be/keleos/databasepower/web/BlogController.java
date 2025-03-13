@@ -1,20 +1,19 @@
 package be.keleos.databasepower.web;
 
+import be.keleos.databasepower.repository.RecentPostRepository;
+import be.keleos.databasepower.repository.TopLikedCommentRepository;
+import be.keleos.databasepower.repository.TopLikedPostRepository;
 import be.keleos.databasepower.repository.CommentRepository;
 import be.keleos.databasepower.repository.PostRepository;
-import be.keleos.databasepower.repository.entity.PostEntity;
 import be.keleos.databasepower.web.out.OutComment;
 import be.keleos.databasepower.web.out.OutPost;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
@@ -25,6 +24,9 @@ public class BlogController {
 
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
+    private final RecentPostRepository recentPostRepository;
+    private final TopLikedPostRepository topLikedPostRepository;
+    private final TopLikedCommentRepository topLikedCommentRepository;
 
     @GetMapping("/v1/posts")
     public List<OutPost> getPosts() {
@@ -36,30 +38,26 @@ public class BlogController {
 
     @GetMapping("/v1/posts/recent")
     public List<OutPost> getRecentPosts() {
-        return postRepository.findRecentPosts(PageRequest.of(0,5))
+        return recentPostRepository.findAll()
                 .stream()
-                .map(OutPost::fromPostEntity)
+                .map(OutPost::fromRecentPostEntity)
                 .toList();
     }
 
     @GetMapping("/v1/posts/top/liked")
     public List<OutPost> getPostsTopLiked() {
-        var page = PageRequest.of(0,10);
-        return postRepository.findTop10Liked(page)
+        return topLikedPostRepository.findAll()
                 .stream()
-                .map(OutPost::fromPostEntity)
+                .map(OutPost::fromTopLikedEntity)
                 .toList();
-
     }
 
     @GetMapping("/v1/comments/top/liked")
     public List<OutComment> getCommentsTopLiked() {
-        var page = PageRequest.of(0,10);
-        return commentRepository.findTop5Comments(page)
+        return topLikedCommentRepository.findAll()
                 .stream()
-                .map(OutComment::fromCommentEntity)
+                .map(OutComment::fromTopLikedComment)
                 .toList();
-
     }
 
 

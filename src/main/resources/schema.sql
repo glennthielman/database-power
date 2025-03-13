@@ -34,6 +34,28 @@ create table if not exists blog_likes (
     constraint con_parent_type check (parent_type in ('post', 'comment'))
 );
 
+create or replace view vw_recent_posts as
+    select id, title, summary, created_on from blog_post order by created_on desc limit 5;
+
+create or replace view vw_top_liked_posts as
+    select id, title from blog_post where id in (
+        select parent_id from blog_likes
+        where parent_type = 'post'
+        group by parent_id
+        order by count(*) desc
+    ) limit 10;
+
+create or replace view vw_top_liked_comments as
+    select c.id, c.parent_id, c.comment, u.firstname
+        from blog_comment c
+        inner join blog_user u on c.author_id = u.id
+        where c.id in (
+            select parent_id from blog_likes
+            where parent_type = 'comment'
+            group by parent_id
+            order by count(*) desc
+        ) limit 10;
+
 insert into blog_user values ('c5f65a08-f993-436b-8110-dbe56457108d', 'glenn@hello.com', 'Glenn', 'Thielman');
 insert into blog_user values ('b6b110da-cf32-4614-86e7-9dd7cea754e7', 'morgane@hello.com', 'Morgane', 'Kruglanski');
 insert into blog_post values ('000e32af-7de4-4299-b3ef-ec56d58d7af9', 'Leverage your database for ultimate power', 'cool stuff with databases', 'this will contain the body of the post, if I had any!!', 'c5f65a08-f993-436b-8110-dbe56457108d', to_timestamp('2025-02-28 12:00:00', 'yyyy-mm-dd hh:mi:ss'));
