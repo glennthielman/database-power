@@ -1,6 +1,6 @@
-package be.keleos.databasepower.repository;
+package be.keleos.databasepower.adapter.frontend.repository;
 
-import be.keleos.databasepower.repository.entity.TopLikedCommentEntity;
+import be.keleos.databasepower.adapter.frontend.repository.entity.TopLikedCommentEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

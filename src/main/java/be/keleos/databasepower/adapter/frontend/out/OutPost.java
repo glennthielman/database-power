@@ -1,8 +1,8 @@
-package be.keleos.databasepower.web.out;
+package be.keleos.databasepower.adapter.frontend.out;
 
-import be.keleos.databasepower.repository.entity.PostEntity;
-import be.keleos.databasepower.repository.entity.RecentPostEntity;
-import be.keleos.databasepower.repository.entity.TopLikedPostEntity;
+import be.keleos.databasepower.core.repository.entity.PostEntity;
+import be.keleos.databasepower.adapter.frontend.repository.entity.RecentPostEntity;
+import be.keleos.databasepower.adapter.frontend.repository.entity.TopLikedPostEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
 

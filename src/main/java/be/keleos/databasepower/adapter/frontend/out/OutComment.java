@@ -1,7 +1,7 @@
-package be.keleos.databasepower.web.out;
+package be.keleos.databasepower.adapter.frontend.out;
 
-import be.keleos.databasepower.repository.entity.CommentEntity;
-import be.keleos.databasepower.repository.entity.TopLikedCommentEntity;
+import be.keleos.databasepower.core.repository.entity.CommentEntity;
+import be.keleos.databasepower.adapter.frontend.repository.entity.TopLikedCommentEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;

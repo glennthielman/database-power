@@ -1,4 +1,4 @@
-package be.keleos.databasepower.repository.entity;
+package be.keleos.databasepower.adapter.frontend.repository.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

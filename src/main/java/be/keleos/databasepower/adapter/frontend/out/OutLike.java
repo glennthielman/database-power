@@ -1,6 +1,6 @@
-package be.keleos.databasepower.web.out;
+package be.keleos.databasepower.adapter.frontend.out;
 
-import be.keleos.databasepower.repository.entity.LikeEntity;
+import be.keleos.databasepower.core.repository.entity.LikeEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;

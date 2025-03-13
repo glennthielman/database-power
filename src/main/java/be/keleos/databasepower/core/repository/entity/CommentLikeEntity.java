@@ -1,4 +1,4 @@
-package be.keleos.databasepower.repository.entity;
+package be.keleos.databasepower.core.repository.entity;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.Filter;

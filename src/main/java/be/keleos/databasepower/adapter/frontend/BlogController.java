@@ -1,12 +1,12 @@
-package be.keleos.databasepower.web;
+package be.keleos.databasepower.adapter.frontend;
 
-import be.keleos.databasepower.repository.RecentPostRepository;
-import be.keleos.databasepower.repository.TopLikedCommentRepository;
-import be.keleos.databasepower.repository.TopLikedPostRepository;
-import be.keleos.databasepower.repository.CommentRepository;
-import be.keleos.databasepower.repository.PostRepository;
-import be.keleos.databasepower.web.out.OutComment;
-import be.keleos.databasepower.web.out.OutPost;
+import be.keleos.databasepower.adapter.frontend.repository.RecentPostRepository;
+import be.keleos.databasepower.adapter.frontend.repository.TopLikedCommentRepository;
+import be.keleos.databasepower.adapter.frontend.repository.TopLikedPostRepository;
+import be.keleos.databasepower.core.repository.CommentRepository;
+import be.keleos.databasepower.core.repository.PostRepository;
+import be.keleos.databasepower.adapter.frontend.out.OutComment;
+import be.keleos.databasepower.adapter.frontend.out.OutPost;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.util.ResourceUtils;
