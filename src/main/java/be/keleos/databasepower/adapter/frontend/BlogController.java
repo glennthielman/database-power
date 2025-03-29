@@ -1,8 +1,10 @@
 package be.keleos.databasepower.adapter.frontend;
 
+import be.keleos.databasepower.adapter.frontend.repository.HtmlViewRepository;
 import be.keleos.databasepower.adapter.frontend.repository.RecentPostRepository;
 import be.keleos.databasepower.adapter.frontend.repository.TopLikedCommentRepository;
 import be.keleos.databasepower.adapter.frontend.repository.TopLikedPostRepository;
+import be.keleos.databasepower.adapter.frontend.view.IndexView;
 import be.keleos.databasepower.core.repository.CommentRepository;
 import be.keleos.databasepower.core.repository.PostRepository;
 import be.keleos.databasepower.adapter.frontend.out.OutComment;
@@ -27,6 +29,8 @@ public class BlogController {
     private final RecentPostRepository recentPostRepository;
     private final TopLikedPostRepository topLikedPostRepository;
     private final TopLikedCommentRepository topLikedCommentRepository;
+    private final IndexView indexView;
+    private final HtmlViewRepository htmlViewRepository;
 
     @GetMapping("/v1/posts")
     public List<OutPost> getPosts() {
@@ -64,8 +68,7 @@ public class BlogController {
     @GetMapping(value = "/index", produces = MediaType.TEXT_HTML_VALUE)
     @ResponseBody
     public String index() throws IOException {
-        var file = ResourceUtils.getFile("classpath:web/index.html");
-        return new String (Files.readAllBytes(file.toPath()));
+        return htmlViewRepository.findById("index").get().getValue();
     }
 
     @GetMapping(value = "/css/style.css", produces = "text/css")

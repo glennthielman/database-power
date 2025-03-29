@@ -34,10 +34,10 @@ create table if not exists blog_likes (
     constraint con_parent_type check (parent_type in ('post', 'comment'))
 );
 
-create materialized view if not exists vw_recent_posts as
+create or replace view vw_recent_posts as
     select id, title, summary, created_on from blog_post order by created_on desc limit 5;
 
-create materialized view if not exists vw_top_liked_posts as
+create or replace view vw_top_liked_posts as
     select id, title from blog_post where id in (
         select parent_id from blog_likes
         where parent_type = 'post'
@@ -45,18 +45,22 @@ create materialized view if not exists vw_top_liked_posts as
         order by count(*) desc
     ) limit 10;
 
-
-
-create materialized view if not exists vw_top_liked_comments as
+create or replace view vw_top_liked_comments as
     select c.id, c.parent_id, c.comment, u.firstname
-        from blog_comment c
-        inner join blog_user u on c.author_id = u.id
-        where c.id in (
-            select parent_id from blog_likes
-            where parent_type = 'comment'
-            group by parent_id
-            order by count(*) desc
-        ) limit 10;
+    from blog_comment c
+     inner join blog_user u on c.author_id = u.id
+    where c.id in (
+        select parent_id from blog_likes
+        where parent_type = 'comment'
+        group by parent_id
+        order by count(*) desc
+    ) limit 10;
+
+create table if not exists blog_html_views (
+    key varchar not null,
+    value text not null,
+    primary key (key)
+);
 
 insert into blog_user values ('c5f65a08-f993-436b-8110-dbe56457108d', 'glenn@hello.com', 'Glenn', 'Thielman');
 insert into blog_user values ('b6b110da-cf32-4614-86e7-9dd7cea754e7', 'morgane@hello.com', 'Morgane', 'Kruglanski');
@@ -198,7 +202,3 @@ INSERT INTO blog_likes VALUES ('d2e3f4a5-6789-3456-8901-901234567890', 'f4d2c9e8
 INSERT INTO blog_likes VALUES ('e3f4a5b6-7890-4567-9012-012345678901', '2b5c7d8e-9f0a-4b1c-8d3e-6a7b9c0d2e4f', 'comment', '901bcdef-4567-0123-4567-890abcdef123');
 INSERT INTO blog_likes VALUES ('f4a5b6c7-8901-5678-0123-123456789012', 'c5f65a08-f993-436b-8110-dbe56457108d', 'comment', 'a12cdef3-6789-1234-5678-90abcdef1234');
 --INSERT INTO blog_likes VALUES ('a5b6c7d8-9012-6789-1234-234567890123', 'a1d4e6c8-8b92-4d55-9e01-4f6d3b52a1f9', 'comment', '4d5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f9a');
-
-refresh materialized view vw_recent_posts;
-refresh materialized view vw_top_liked_posts;
-refresh materialized view vw_top_liked_comments;

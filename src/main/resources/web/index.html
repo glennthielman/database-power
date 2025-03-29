@@ -43,23 +43,12 @@
                 <div class="col-lg-8">
                     <!-- Featured blog post-->
                     <div class="card mb-4" id="main-post-banner">
+                        ${main-post-banner}
                     </div>
                     <!-- Nested row for non-featured blog posts-->
                     <div class="row" id="featured-post-banner">
+                        ${feature-post-banner}
                     </div>
-                    <!-- Pagination
-                    <nav aria-label="Pagination">
-                        <hr class="my-0" />
-                        <ul class="pagination justify-content-center my-4">
-                            <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Newer</a></li>
-                            <li class="page-item active" aria-current="page"><a class="page-link" href="#!">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#!">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#!">3</a></li>
-                            <li class="page-item disabled"><a class="page-link" href="#!">...</a></li>
-                            <li class="page-item"><a class="page-link" href="#!">15</a></li>
-                            <li class="page-item"><a class="page-link" href="#!">Older</a></li>
-                        </ul>
-                    </nav>-->
                 </div>
                 <!-- Side widgets-->
                 <div class="col-lg-4">
@@ -80,12 +69,7 @@
                             <div class="row">
                                 <div class="col-sm-12">
                                     <ul class="list-unstyled mb-0" id="topLikedBlogsLeft">
-                                        <!--
-                                        <li><a href="#!">Get your Maven on</a></li>
-                                        <li><a href="#!">Let's Gradle</a></li>
-                                        <li><a href="#!">Twisted dependencies</a></li>
-                                        <li><a href="#!">Twisted dependencies</a></li>
-                                        <li><a href="#!">Twisted dependencies</a></li>-->
+                                        ${top-liked-blogs}
                                     </ul>
                                 </div>
                             </div>
@@ -97,15 +81,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-12" id="recentComments">
-                                    <!--
-                                    <blockquote class="blockquote mb-0" style="font-size: 14px;">
-                                        <p>This is great, Maven is awesome</p>
-                                        <footer class="blockquote-footer">
-                                            <small class="text-muted">
-                                                Glenn
-                                            </small>
-                                        </footer>
-                                    </blockquote>-->
+                                    ${recent-comments}
                                 </div>
                             </div>
                         </div>
@@ -126,109 +102,5 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
         <script src="/js/scripts.js"></script>
-        <script>
-            fetch("v1/posts/top/liked",  {
-              method: "GET"
-            })
-            .then((response) => response.json())
-            .then((json) => {
-                document.getElementById('topLikedBlogsLeft').innerHTML = "";
-                let html = ""
-                for(let i = 0; i < json.length; i++) {
-                    html+= `<li><a href="#!">${json[i].title}</a></li>`;
-                }
-                document.getElementById('topLikedBlogsLeft').innerHTML = html;
-            });
-
-            fetch("v1/comments/top/liked",  {
-                method: "GET"
-            })
-            .then((response) => response.json())
-            .then((json) => {
-                document.getElementById("recentComments").innerHTML = "";
-                let html = "";
-                for(let i = 0; i < json.length; i++) {
-                    html+= `<blockquote class="blockquote mb-0" style="font-size: 14px;">
-                                    <p>${json[i].comment}</p>
-                                    <footer class="blockquote-footer">
-                                        <small class="text-muted">
-                                            ${json[i].user.firstname}
-                                        </small>
-                                    </footer>
-                                </blockquote>`;
-                }
-                document.getElementById("recentComments").innerHTML = html;
-            });
-
-            fetch("/v1/posts/recent", {
-                method: "GET"
-            })
-                .then((response) => response.json())
-                .then((json) => {
-                        document.getElementById('featured-post-banner').innerHTML = "";
-                        let value = json[0];
-                        let html = `<a href="#!"><img class="card-img-top" src="https://dummyimage.com/850x350/dee2e6/6c757d.jpg" alt="..." /></a>
-                                    <div class="card-body">
-                                        <div class="small text-muted">${new Date(value.createdAt).toLocaleDateString()}</div>
-                                        <h2 class="card-title">${value.title}</h2>
-                                        <p class="card-text">${value.summary}</p>
-                                        <a class="btn btn-primary" href="#!">Read more →</a>
-                                    </div>`;
-                        document.getElementById('main-post-banner').innerHTML = html;
-
-                        value = json[1];
-                        html = `<div class="col-lg-6">
-                        <!-- Blog post-->
-                        <div class="card mb-4">
-                            <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
-                            <div class="card-body">
-                                <div class="small text-muted">${new Date(value.createdAt).toLocaleDateString()}</div>
-                                <h2 class="card-title h4">${value.title}</h2>
-                                <p class="card-text">${value.summary}</p>
-                                <a class="btn btn-primary" href="#!">Read more →</a>
-                            </div>
-                        </div>`
-
-                        value = json[3];
-                        html += ` <!-- Blog post-->
-                        <div class="card mb-4">
-                            <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
-                            <div class="card-body">
-                                <div class="small text-muted">${new Date(value.createdAt).toLocaleDateString()}</div>
-                                <h2 class="card-title h4">${value.title}</h2>
-                                <p class="card-text">${value.summary}</p>
-                                <a class="btn btn-primary" href="#!">Read more →</a>
-                            </div>
-                        </div>
-                    </div>`;
-
-                    value = json[2];
-                    html += `<div class="col-lg-6">
-                            <!-- Blog post-->
-                            <div class="card mb-4">
-                                <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
-                                <div class="card-body">
-                                    <div class="small text-muted">${new Date(value.createdAt).toLocaleDateString()}</div>
-                                    <h2 class="card-title h4">${value.title}</h2>
-                                    <p class="card-text">${value.summary}</p>
-                                    <a class="btn btn-primary" href="#!">Read more →</a>
-                                </div>
-                            </div>`
-
-                    value = json[4];
-                    html += ` <!-- Blog post-->
-                            <div class="card mb-4">
-                                <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
-                                <div class="card-body">
-                                    <div class="small text-muted">${new Date(value.createdAt).toLocaleDateString()}</div>
-                                    <h2 class="card-title h4">${value.title}</h2>
-                                    <p class="card-text">${value.summary}</p>
-                                    <a class="btn btn-primary" href="#!">Read more →</a>
-                                </div>
-                            </div>
-                        </div>`;
-                        document.getElementById('featured-post-banner').innerHTML = html;
-                })
-        </script>
     </body>
 </html>
