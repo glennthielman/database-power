@@ -4,6 +4,8 @@ import be.keleos.databasepower.adapter.frontend.repository.HtmlViewRepository;
 import be.keleos.databasepower.adapter.frontend.repository.entity.HtmlViewEntity;
 import be.keleos.databasepower.adapter.frontend.view.IndexView;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ public class HtmlViewService {
     private final IndexView indexView;
     private final HtmlViewRepository htmlViewRepository;
 
+    @CacheEvict(value="indexPage", allEntries=true)
     @Scheduled(fixedRate = 10000)
     public void RenderIndexPage() throws IOException {
         System.out.println("Rendering index page");
@@ -24,5 +27,11 @@ public class HtmlViewService {
                 .setKey("index")
                 .setValue(indexPage);
         htmlViewRepository.save(entity);
+    }
+
+    @Cacheable("indexPage")
+    public String getIndexPage() {
+        return htmlViewRepository.findById("index").get().getValue();
+
     }
 }
