@@ -19,7 +19,7 @@ public class HtmlViewService {
     private final HtmlViewRepository htmlViewRepository;
 
     @CacheEvict(value="indexPage", allEntries=true)
-    @Scheduled(fixedRate = 10000)
+    @Scheduled(fixedRate = 20000)
     public void RenderIndexPage() throws IOException {
         System.out.println("Rendering index page");
         var indexPage = indexView.getHTML();

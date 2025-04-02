@@ -10,8 +10,8 @@ import org.springframework.util.ResourceUtils;
 import java.io.IOException;
 import java.nio.file.Files;
 
-@RequiredArgsConstructor
 @Component
+@RequiredArgsConstructor
 public class IndexView {
 
     private final RecentPostRepository recentPostRepository;
