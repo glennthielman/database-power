@@ -2,7 +2,6 @@ package be.keleos.databasepower.web;
 
 import be.keleos.databasepower.repository.CommentRepository;
 import be.keleos.databasepower.repository.PostRepository;
-import be.keleos.databasepower.repository.entity.PostEntity;
 import be.keleos.databasepower.web.out.OutComment;
 import be.keleos.databasepower.web.out.OutPost;
 import lombok.RequiredArgsConstructor;
@@ -10,11 +9,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
@@ -55,7 +52,7 @@ public class BlogController {
     @GetMapping("/v1/comments/top/liked")
     public List<OutComment> getCommentsTopLiked() {
         var page = PageRequest.of(0,10);
-        return commentRepository.findTop5Comments(page)
+        return commentRepository.findTop10Comments(page)
                 .stream()
                 .map(OutComment::fromCommentEntity)
                 .toList();
