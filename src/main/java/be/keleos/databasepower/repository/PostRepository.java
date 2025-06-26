@@ -1,6 +1,5 @@
 package be.keleos.databasepower.repository;
 
-import be.keleos.databasepower.repository.entity.CommentEntity;
 import be.keleos.databasepower.repository.entity.PostEntity;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
