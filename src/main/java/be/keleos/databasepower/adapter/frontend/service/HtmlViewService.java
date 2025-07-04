@@ -17,7 +17,7 @@ public class HtmlViewService {
     private final HtmlViewRepository htmlViewRepository;
 
     @Scheduled(fixedRate = 10000)
-    public void RenderIndexPage() throws IOException {
+    public void renderIndexPage() throws IOException {
         System.out.println("Rendering index page");
         var indexPage = indexView.getHTML();
         var entity = new HtmlViewEntity()
