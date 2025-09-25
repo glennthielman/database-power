@@ -41,8 +41,7 @@ public class BlogController {
 
     @GetMapping("/v1/posts/top/liked")
     public List<OutPost> getPostsTopLiked() {
-        var page = PageRequest.of(0,10);
-        return postRepository.findTop10Liked(page)
+        return postRepository.findTop10Liked(PageRequest.of(0,10))
                 .stream()
                 .map(OutPost::fromPostEntity)
                 .toList();
@@ -51,8 +50,7 @@ public class BlogController {
 
     @GetMapping("/v1/comments/top/liked")
     public List<OutComment> getCommentsTopLiked() {
-        var page = PageRequest.of(0,10);
-        return commentRepository.findTop10Comments(page)
+        return commentRepository.findTop10Comments(PageRequest.of(0,10))
                 .stream()
                 .map(OutComment::fromCommentEntity)
                 .toList();

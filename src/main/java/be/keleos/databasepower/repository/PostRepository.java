@@ -19,5 +19,4 @@ public interface PostRepository extends JpaRepository<PostEntity, UUID> {
 
     @Query(value = "select p from PostEntity p order by p.createdAt desc")
     List<PostEntity> findRecentPosts(Pageable pageable);
-
 }
